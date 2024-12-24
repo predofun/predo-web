@@ -2,7 +2,7 @@ const Hero = () => {
 	return (
 		<section className='h-screen relative z-10 flex-col justify-center text-center px-4 w-full'>
 			<div className='h-[72%] md:h-[79%] top-[15vh] md:top-[16vh] border-zinc-700 border rounded-[2rem] relative w-full flex flex-col justify-center items-center pb-14 overflow-hidden shadow-2xl'>
-				<h1 className=' text-[2.6rem]  md:text-6xl satoshi font-black text-[#E2D3FF] mb-6 leading-[3rem]'>
+				<h1 className=' text-[2.2rem]  md:text-6xl satoshi font-black text-[#E2D3FF] mb-6 leading-[3rem]'>
 					Engage. Predict.
 					<br className='block md:hidden ' /> Win
 				</h1>
