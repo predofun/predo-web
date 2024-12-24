@@ -55,7 +55,7 @@ const BetDetails = (props: BetDetailsProps) => {
 				{/* Right side - Details */}
 				<div className='w-full md:w-1/2'>
 					<div className='mb-2 text-gray-400'>BET</div>
-					<h1 className='text-3xl md:text-5xl font-bold mb-4 font-montserrat'>
+					<h1 className='text-3xl md:text-4xl font-bold mb-4 font-montserrat'>
 						{props.title}
 					</h1>
 

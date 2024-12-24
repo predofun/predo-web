@@ -23,7 +23,7 @@ const router = createBrowserRouter([
 			if (!response.ok) {
 				throw new Error("Failed to fetch bet data");
 			}
-			const data = await response.json();
+			const { data } = await response.json();
 			console.log(data);
 			return {
 				...data,
