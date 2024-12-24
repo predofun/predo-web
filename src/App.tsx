@@ -23,10 +23,11 @@ const router = createBrowserRouter([
 			if (!response.ok) {
 				throw new Error("Failed to fetch bet data");
 			}
-			const { data } = await response.json();
+			console.log(response);
+			const data = await response.json();
 			console.log(data);
 			return {
-				...data,
+				...data.data,
 				img: "/gifs/simpsons.webp",
 				username: "Simpson",
 			};
