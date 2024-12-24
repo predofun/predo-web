@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Anton+SC&family=Doto:wght@100..900&family=Faculty+Glyphic&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anton+SC&family=Doto:wght@100..900&family=Faculty+Glyphic&family=Figtree:ital,wght@0,300..900;1,300..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -108,8 +108,67 @@
 	will-change: transform;
 }
 
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+	}
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 6px rgba(74, 222, 128, 0);
+	}
+	100% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+	}
+}
+
+.pulse {
+	animation: pulse 2s infinite;
+}
+
 .satoshi {
 	font-family: "satoshi", sans-serif;
+}
+
+@keyframes floating {
+    0% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(0, 15px);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.floating-animation-slow {
+    animation: floating 6s ease-in-out infinite;
+}
+
+.floating-animation-medium {
+    animation: floating 4s ease-in-out infinite;
+}
+
+.floating-animation-fast {
+    animation: floating 3s ease-in-out infinite;
+}
+
+.floating-delay-1 {
+    animation-delay: 0.5s;
+}
+
+.floating-delay-2 {
+    animation-delay: 1s;
+}
+
+.floating-delay-3 {
+    animation-delay: 1.5s;
+}
+
+.floating-delay-4 {
+    animation-delay: 2s;
 }
 
 @layer base {
