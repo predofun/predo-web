@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { showToast } from "@/lib/utils";
 
 interface BetPollProps {
 	teams: Record<string, string>;
@@ -37,6 +38,10 @@ export const BetPoll = ({ teams, options, onVote }: BetPollProps) => {
 			setSelectedTeam(index);
 			await onVote?.(index);
 		} catch (error) {
+			setSelectedTeam(null);
+			showToast.error(
+				error instanceof Error ? error.message : "Failed to submit vote"
+			);
 			console.error("Error voting:", error);
 		} finally {
 			setLoading(false);

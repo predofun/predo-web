@@ -6,7 +6,7 @@ const Hero = () => {
 					Engage. Predict.
 					<br className='block md:hidden ' /> Win
 				</h1>
-				<p className=' hidden md:block text-xl md:text-2xl text-white opacity-85 mb-6 font-montserrat satoshi'>
+				<p className=' hidden md:block text-xl md:text-xl text-white opacity-85 mb-6 font-montserrat satoshi'>
 					Turn group banter into friendly wagers
 				</p>
 				<a

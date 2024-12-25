@@ -43,38 +43,32 @@ const BetDetails = (props: BetDetailsProps) => {
 	};
 
 	const handleVote = async (teamIndex: number) => {
-		try {
-			showToast.loading("Submitting your vote...");
-			const response = await fetch(
-				`${import.meta.env.VITE_API_URL}/bet/predict`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						betId: props.betId,
-						username: props.username,
-						votetdOption: props.options[teamIndex],
-					}),
-				}
-			);
-
-			if (!response.ok) {
-				throw new Error("Failed to submit vote");
+		showToast.loading("Submitting your vote...");
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/bet/predict`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					betId: props.betId,
+					username: props.username,
+					votetdOption: props.options[teamIndex],
+				}),
 			}
+		);
 
-			const data = await response.json();
-			showToast.success("Vote submitted successfully!");
-
-			// You might want to update the UI with the new vote counts
-			// This depends on what your backend returns
-			console.log("Vote response:", data);
-		} catch (error) {
-			showToast.error(
-				error instanceof Error ? error.message : "Failed to submit vote"
-			);
+		if (!response.ok) {
+			throw new Error("Failed to submit vote");
 		}
+
+		const data = await response.json();
+		showToast.success("Vote submitted successfully!");
+
+		// You might want to update the UI with the new vote counts
+		// This depends on what your backend returns
+		console.log("Vote response:", data);
 	};
 
 	return (
@@ -112,6 +106,7 @@ const BetDetails = (props: BetDetailsProps) => {
 					<h1 className='text-3xl text-gray-300 md:text-4xl font-bold mb-4 font-montserrat letter-title leading-[2.5rem] md:leading-[2.8rem]'>
 						{props.title}
 					</h1>
+
 					<div className='flex items-center gap-3 mb-6'>
 						<div className='flex items-center gap-2'>
 							<span className='w-3 h-3 bg-green-400 rounded-full pulse'></span>
@@ -122,6 +117,7 @@ const BetDetails = (props: BetDetailsProps) => {
 								{props.participants.length || "0"}
 							</span>
 						</div>
+
 						<button
 							onClick={handleCopy}
 							className='ml-auto flex items-center gap-2 text-blue-500 hover:text-blue-400 transition-colors '>
