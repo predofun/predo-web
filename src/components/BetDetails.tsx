@@ -1,29 +1,52 @@
 import { showToast } from "@/lib/utils";
 import { BetPoll } from "./BetPoll";
 import { BetDetailsProps } from "@/pages/BetPage";
+import { useEffect, useState } from "react";
+import { CreditCard, ScanLine } from "lucide-react";
 
 const BetDetails = (props: BetDetailsProps) => {
-	const handleShare = async () => {
-		if (navigator.share) {
-			try {
-				await navigator.share({
-					title: "Your Title",
-					text: "Your description",
-					url: window.location.href,
-				});
-				console.log("Shared successfully");
-			} catch (error) {
-				console.log("Error sharing:", error);
+	const [timeLeft, setTimeLeft] = useState("");
+
+	useEffect(() => {
+		const calculateTimeLeft = () => {
+			const difference =
+				new Date(props.endTime).getTime() - new Date().getTime();
+
+			if (difference <= 0) {
+				return "Ended";
 			}
-		} else {
-			console.log("Web Share API not supported");
+
+			const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+			const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+			const minutes = Math.floor((difference / 1000 / 60) % 60);
+			const seconds = Math.floor((difference / 1000) % 60);
+
+			return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+		};
+
+		const timer = setInterval(() => {
+			setTimeLeft(calculateTimeLeft());
+		}, 1000);
+
+		setTimeLeft(calculateTimeLeft());
+
+		return () => clearInterval(timer);
+	}, [props.endTime]);
+
+	const handleCopy = async () => {
+		try {
+			await navigator.clipboard.writeText(location.href);
+			showToast.success("Link copied to clipboard!");
+		} catch (error) {
+			console.error("Failed to copy:", error);
 		}
 	};
+
 	const handleVote = async (teamIndex: number) => {
 		try {
 			showToast.loading("Submitting your vote...");
 			const response = await fetch(
-				`${import.meta.env.VITE_API_URL}/bets/predict`,
+				`${import.meta.env.VITE_API_URL}/bet/predict`,
 				{
 					method: "POST",
 					headers: {
@@ -55,7 +78,7 @@ const BetDetails = (props: BetDetailsProps) => {
 	};
 
 	return (
-		<div className='min-h-screen  text-white p-2 md:p-8'>
+		<div className='min-h-screen  text-white p-2 md:p-8 mt-5'>
 			<div className='mx-auto max-w-[75rem] pt-[12vh] flex flex-col md:flex-row gap-12'>
 				{/* Left side - Image */}
 				<div className='w-full md:w-1/2'>
@@ -69,15 +92,29 @@ const BetDetails = (props: BetDetailsProps) => {
 				</div>
 
 				{/* Right side - Details */}
-				<div className='w-full md:w-1/2'>
-					<div className='mb-2 text-gray-400'>BET</div>
-					<h1 className='text-3xl md:text-4xl font-bold mb-4 font-montserrat'>
+				<div className='w-full md:w-1/2 '>
+					<div className='flex items-center gap-2  mb-3 text-yellow-700'>
+						<svg
+							className='w-5 h-5'
+							fill='none'
+							stroke='currentColor'
+							viewBox='0 0 24 24'>
+							<path
+								strokeLinecap='round'
+								strokeLinejoin='round'
+								strokeWidth={2}
+								d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'
+							/>
+						</svg>
+						<span>Ends in: {timeLeft}</span>
+					</div>
+
+					<h1 className='text-3xl text-gray-300 md:text-4xl font-bold mb-4 font-montserrat letter-title leading-[2.5rem] md:leading-[2.8rem]'>
 						{props.title}
 					</h1>
-
 					<div className='flex items-center gap-3 mb-6'>
 						<div className='flex items-center gap-2'>
-							<span className='w-2 h-2 bg-green-400 rounded-full pulse'></span>
+							<span className='w-3 h-3 bg-green-400 rounded-full pulse'></span>
 							<span className='text-gray-400'>
 								Current Participants:
 							</span>
@@ -86,8 +123,8 @@ const BetDetails = (props: BetDetailsProps) => {
 							</span>
 						</div>
 						<button
-							onClick={handleShare}
-							className='ml-auto flex items-center gap-2 text-gray-400 hover:text-white transition-colors'>
+							onClick={handleCopy}
+							className='ml-auto flex items-center gap-2 text-blue-500 hover:text-blue-400 transition-colors '>
 							<svg
 								className='w-5 h-5'
 								fill='none'
@@ -103,18 +140,23 @@ const BetDetails = (props: BetDetailsProps) => {
 							Share
 						</button>
 					</div>
-
 					<div className='bg-[#1c1c1c] rounded-2xl p-6 mb-8'>
 						<div className='flex justify-between items-center mb-4'>
 							<div>
-								<div className='text-gray-400 text-sm'>Bet Amount</div>
-								<div className='text-2xl font-bold font-montserrat'>
+								<div className='text-gray-400 text-sm flex items-center gap-1 mb-1'>
+									{" "}
+									<CreditCard className='w-5 h-5' /> Bet Amount
+								</div>
+								<div className='text-2xl font-bold font-montserrat text-gray-300'>
 									{props.minAmount} USDC
 								</div>
 							</div>
 							<div>
-								<div className='text-gray-400 text-sm'>Total Pool</div>
-								<div className='text-2xl font-bold font-montserrat'>
+								<div className='text-gray-400 text-sm flex items-center gap-1 mb-1'>
+									{" "}
+									<ScanLine className='w-5 h-5' /> Total Pool
+								</div>
+								<div className='text-2xl font-bold font-montserrat text-gray-300'>
 									{Number(props.minAmount) * props.participants.length}
 									USDC
 								</div>
@@ -126,7 +168,6 @@ const BetDetails = (props: BetDetailsProps) => {
 							onVote={handleVote}
 						/>
 					</div>
-
 					{/* <div className='bg-[#1c1c1c] rounded-2xl p-6'>
 						<h2 className='text-xl font-bold mb-4'>Details</h2>
 						<p className='text-gray-400 mb-6'>{props.description}</p>
@@ -169,6 +210,11 @@ const BetDetails = (props: BetDetailsProps) => {
 					</div> */}
 				</div>
 			</div>
+			{/* <img
+				src='https://superboard.xyz/_next/static/media/yellowstar.5687b540.svg'
+				alt=''
+				className='fixed bottom-0 w-[10rem] -translate-x-1/2 left-0 z-0'
+			/> */}
 		</div>
 	);
 };

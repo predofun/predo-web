@@ -27,6 +27,7 @@ const router = createBrowserRouter([
 			console.log(response);
 			const data = await response.json();
 			console.log(data);
+			showToast.success("Bet data loaded successfully!");
 			return {
 				...data.data,
 				img: "/gifs/simpsons.webp",

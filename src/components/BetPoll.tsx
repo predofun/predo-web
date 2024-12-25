@@ -2,17 +2,17 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { showToast } from "@/lib/utils";
 
 interface BetPollProps {
 	teams: Record<string, string>;
 	options: string[];
-	onVote?: (teamIndex: number) => void;
+	onVote?: (teamIndex: number) => Promise<void>;
 }
 
 export const BetPoll = ({ teams, options, onVote }: BetPollProps) => {
 	const [selectedTeam, setSelectedTeam] = useState<number | null>(null);
 	const [isHovering, setIsHovering] = useState<number | null>(null);
+	const [loading, setLoading] = useState(false);
 
 	// Calculate total votes
 	const totalVotes = Object.keys(teams).length;
@@ -30,10 +30,17 @@ export const BetPoll = ({ teams, options, onVote }: BetPollProps) => {
 		};
 	});
 
-	const handleClick = (index: number) => {
-		showToast.message("dfsdf");
-		setSelectedTeam(index);
-		onVote?.(index);
+	const handleClick = async (index: number) => {
+		if (loading) return;
+		try {
+			setLoading(true);
+			setSelectedTeam(index);
+			await onVote?.(index);
+		} catch (error) {
+			console.error("Error voting:", error);
+		} finally {
+			setLoading(false);
+		}
 	};
 	return (
 		<div className='space-y-3'>
@@ -88,14 +95,14 @@ export const BetPoll = ({ teams, options, onVote }: BetPollProps) => {
 								className={`font-medium transition-colors duration-200 ${
 									selectedTeam === index
 										? "text-white"
-										: "text-gray-300"
+										: "text-gray-500"
 								}`}>
 								{vote.option}
 							</span>
 						</div>
-						<span className='text-gray-400 z-10'>{vote.percentage}%</span>
+						<span className='text-gray-500 z-10'>{vote.percentage}%</span>
 						<motion.div
-							className={`h-fulli inset-0 transition-colors duration-300 absolute -z-1  ${
+							className={`h-fulli inset-0 transition-colors duration-300 absolute -z-1 rounded-[.9rem] ${
 								selectedTeam === index
 									? "bg-[#4A4A4A]"
 									: isHovering === index
