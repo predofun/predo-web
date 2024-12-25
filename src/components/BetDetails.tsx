@@ -3,6 +3,22 @@ import { BetPoll } from "./BetPoll";
 import { BetDetailsProps } from "@/pages/BetPage";
 
 const BetDetails = (props: BetDetailsProps) => {
+	const handleShare = async () => {
+		if (navigator.share) {
+			try {
+				await navigator.share({
+					title: "Your Title",
+					text: "Your description",
+					url: window.location.href,
+				});
+				console.log("Shared successfully");
+			} catch (error) {
+				console.log("Error sharing:", error);
+			}
+		} else {
+			console.log("Web Share API not supported");
+		}
+	};
 	const handleVote = async (teamIndex: number) => {
 		try {
 			showToast.loading("Submitting your vote...");
@@ -69,7 +85,9 @@ const BetDetails = (props: BetDetailsProps) => {
 								{props.participants.length || "0"}
 							</span>
 						</div>
-						<button className='ml-auto flex items-center gap-2 text-gray-400 hover:text-white transition-colors'>
+						<button
+							onClick={handleShare}
+							className='ml-auto flex items-center gap-2 text-gray-400 hover:text-white transition-colors'>
 							<svg
 								className='w-5 h-5'
 								fill='none'

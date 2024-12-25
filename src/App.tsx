@@ -5,6 +5,7 @@ import { Fragment } from "react/jsx-runtime";
 import BetPage from "./pages/BetPage";
 import { showToast } from "./lib/utils";
 import ErrorPage from "./pages/ErrorPage";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
 	{
@@ -48,6 +49,7 @@ function App() {
 				className='fixed h-screen w-screen object-cover'
 				alt='Vite logo'
 			/>
+			<Toaster position='bottom-right' />
 
 			<RouterProvider router={router} />
 		</Fragment>
