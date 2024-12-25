@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 const Header = () => {
 	return (
-		<header className='fixed w-[95%] left-1/2 -translate-x-1/2 md:w-[87%] top-[4vh] z-50 px-3 md:px-6 flex justify-between  items-center  backdrop-blur-lg shadow-md rounded-[2rem] md:rounded-[3rem] border border-zinc-800 h-[7vh] md:h-[9vh] bg-[#28282cbc]'>
+		<header className='fixed w-[95%] left-1/2 -translate-x-1/2 md:w-[87%] top-[4vh] z-50 px-3 md:px-6 flex justify-between gap-2  items-center  backdrop-blur-lg shadow-md rounded-[2rem] md:rounded-[3rem] border border-zinc-800 h-[7vh] md:h-[9vh] bg-[#28282cbc]'>
 			<Link to='/'>
 				<div className='flex items-center'>
 					<img

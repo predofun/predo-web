@@ -139,7 +139,7 @@ const BetDetails = (props: BetDetailsProps) => {
 					<div className='bg-[#1c1c1c] rounded-2xl p-6 mb-8'>
 						<div className='flex justify-between items-center mb-4'>
 							<div>
-								<div className='text-gray-400 text-sm flex items-center gap-1 mb-1'>
+								<div className='text-gray-400 text-sm flex items-center gap-1 mb-2'>
 									{" "}
 									<CreditCard className='w-5 h-5' /> Bet Amount
 								</div>
@@ -148,7 +148,7 @@ const BetDetails = (props: BetDetailsProps) => {
 								</div>
 							</div>
 							<div>
-								<div className='text-gray-400 text-sm flex items-center gap-1 mb-1'>
+								<div className='text-gray-400 text-sm flex items-center gap-1 mb-2'>
 									{" "}
 									<ScanLine className='w-5 h-5' /> Total Pool
 								</div>

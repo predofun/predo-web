@@ -30,7 +30,7 @@ const router = createBrowserRouter([
 			showToast.success("Bet data loaded successfully!");
 			return {
 				...data.data,
-				img: "/gifs/simpsons.webp",
+				img: "/gifs/spongebob.webp",
 				username: "Simpson",
 			};
 		},
