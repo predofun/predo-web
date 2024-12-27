@@ -185,7 +185,7 @@
 .letter-title {
 	font-family: "Liberty";
 
-	text-shadow: 0 0 2rem #e9e9e989;
+	text-shadow: 0 0 2rem #64646432;
 	animation: flicker 2s ease-in-out infinite alternate;
 }
 
@@ -226,7 +226,7 @@
 
 .c-rainbow {
 	--color-background: #31037d;
-	--axis-x: 1px;
+	--axis-x: 3px;
 	--axis-y: 1rem;
 	--delay: 10;
 	--color-black: #000;
@@ -260,8 +260,8 @@
 		-1px 1px 0 var(--color-black), 1px 1px 0 var(--color-black),
 		4px 4px 0 rgba(0, 0, 0, 0.2);
 	/* animation: rainbow 1.5s ease-in-out infinite; */
-	animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) both
-		infinite;
+	/* animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) both
+		infinite; */
 	font-family: "Montserrat";
 	font-weight: 700;
 	/* line-height: 1.5rem; */
