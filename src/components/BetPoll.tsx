@@ -1,16 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { showToast } from "@/lib/utils";
 
 interface BetPollProps {
+	userPreviousVote: string;
 	teams: Record<string, string>;
 	options: string[];
 	onVote?: (teamIndex: number) => Promise<void>;
+	disabled?: boolean;
 }
 
-export const BetPoll = ({ teams, options, onVote }: BetPollProps) => {
+export const BetPoll = ({
+	userPreviousVote,
+	teams,
+	options,
+	onVote,
+	disabled,
+}: BetPollProps) => {
 	const [selectedTeam, setSelectedTeam] = useState<number | null>(null);
 	const [isHovering, setIsHovering] = useState<number | null>(null);
 	const [loading, setLoading] = useState(false);
@@ -31,8 +39,19 @@ export const BetPoll = ({ teams, options, onVote }: BetPollProps) => {
 		};
 	});
 
+	useEffect(() => {
+		if (userPreviousVote) {
+			const index = options.findIndex(
+				(option) => option === userPreviousVote
+			);
+			if (index !== -1) {
+				setSelectedTeam(index);
+			}
+		}
+	}, [userPreviousVote]);
+
 	const handleClick = async (index: number) => {
-		if (loading) return;
+		if (loading || disabled) return;
 		try {
 			setLoading(true);
 			setSelectedTeam(index);

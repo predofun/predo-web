@@ -1,28 +1,27 @@
-import { useLoaderData } from "react-router";
 import BetDetails from "@/components/BetDetails";
 import Header from "../components/Header";
 
-type BetId = `PRE-${string}`;
+type BetId = `pre-${string}`;
 
 export interface BetDetailsProps {
 	id: string;
 	betId: BetId;
 	title: string;
-	options: [string, string]; // Exactly 2 options
+	options: string[];
 	minAmount: number;
 	groupId: string;
 	username: string;
 	img: string;
+	userID: string;
+	image: string;
 	endTime: Date;
 	participants: string[]; // Empty array
 	votes: Record<string, string>;
-	resolved: false;
+	resolved: boolean;
 	__v: number;
 }
 
-function BetPage() {
-	const data = useLoaderData() as BetDetailsProps;
-
+function BetPage({ betDetails }: { betDetails: BetDetailsProps }) {
 	// if (!data) {
 	// 	return (
 	// 		<main className='min-h-screen w-[95%] md:w-[87%] mx-auto relative overflow-hidden'>
@@ -38,7 +37,7 @@ function BetPage() {
 	return (
 		<main className='min-h-screen w-[95%] md:w-[87%] mx-auto relative overflow-hidden'>
 			<Header />
-			<BetDetails {...data} />
+			<BetDetails {...betDetails} />
 		</main>
 	);
 }

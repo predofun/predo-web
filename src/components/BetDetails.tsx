@@ -3,9 +3,16 @@ import { BetPoll } from "./BetPoll";
 import { BetDetailsProps } from "@/pages/BetPage";
 import { useEffect, useState } from "react";
 import { CreditCard, ScanLine } from "lucide-react";
+import { useBetDetails } from "@/hooks/useBetDetails";
 
 const BetDetails = (props: BetDetailsProps) => {
+	const { setBetDetails } = useBetDetails();
 	const [timeLeft, setTimeLeft] = useState("");
+	const [telegramUser] = useState(() => {
+		return window.Telegram.WebApp.initDataUnsafe;
+	});
+
+	const [isVotedEnded, setIsVotedEnded] = useState(false);
 
 	useEffect(() => {
 		const calculateTimeLeft = () => {
@@ -13,6 +20,7 @@ const BetDetails = (props: BetDetailsProps) => {
 				new Date(props.endTime).getTime() - new Date().getTime();
 
 			if (difference <= 0) {
+				setIsVotedEnded(true);
 				return "Ended";
 			}
 
@@ -21,7 +29,7 @@ const BetDetails = (props: BetDetailsProps) => {
 			const minutes = Math.floor((difference / 1000 / 60) % 60);
 			const seconds = Math.floor((difference / 1000) % 60);
 
-			return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+			return `Ends in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
 		};
 
 		const timer = setInterval(() => {
@@ -44,6 +52,11 @@ const BetDetails = (props: BetDetailsProps) => {
 
 	const handleVote = async (teamIndex: number) => {
 		showToast.loading("Submitting your vote...");
+		console.log({
+			betId: props.betId,
+			username: telegramUser?.user?.username,
+			votedOption: props.options[teamIndex],
+		});
 		const response = await fetch(
 			`${import.meta.env.VITE_API_URL}/bet/predict`,
 			{
@@ -53,22 +66,48 @@ const BetDetails = (props: BetDetailsProps) => {
 				},
 				body: JSON.stringify({
 					betId: props.betId,
-					username: props.username,
-					votetdOption: props.options[teamIndex],
+					username: telegramUser?.user?.username,
+					votedOption: props.options[teamIndex],
 				}),
 			}
 		);
+
+		// bet: Object
+
+		// __v: 0
+
+		// _id: "676fe8a03e59a839bd328c75"
+
+		// betId: "pre-dqzk1"
+
+		// endTime: "2024-12-31T22:59:59.000Z"
+
+		// groupId: "-4703205367"
+
+		// image: "https://res.cloudinary.com/dbuaprzc0/image/upload/v1735006898/predo/aom8sxegzlihtr6obvuk.gif"
+
+		// minAmount: 1
+
+		// options: ["Marcel the Monkey", "Curious George", "Abu"] (3)
+
+		// participants: ["676a714f2157ec329f94cb39", "676af5ec40781457c88b3737"] (2)
+
+		// resolved: false
+
+		// title: "Who is the most famous monkey in the street?"
+
+		// votes: {676a714f2157ec329f94cb39: "Marcel the Monkey", 676af5ec40781457c88b3737: "Marcel the Monkey"}
 
 		if (!response.ok) {
 			throw new Error("Failed to submit vote");
 		}
 
-		const data = await response.json();
-		showToast.success("Vote submitted successfully!");
+		const { data } = await response.json();
 
-		// You might want to update the UI with the new vote counts
-		// This depends on what your backend returns
-		console.log("Vote response:", data);
+		showToast.success("Vote submitted successfully!");
+		setBetDetails(data.bet);
+
+		console.log("Vote response:", data.bet);
 	};
 
 	return (
@@ -78,7 +117,7 @@ const BetDetails = (props: BetDetailsProps) => {
 				<div className='w-full md:w-1/2'>
 					<div className='h-[20rem] md:h-auto md:aspect-square rounded-2xl overflow-hidden bg-[#1c1c1c] border border-zinc-600 shadow-md'>
 						<img
-							src={props.img}
+							src={props.image}
 							className='w-full h-full object-cover'
 							alt={props.title}
 						/>
@@ -87,7 +126,10 @@ const BetDetails = (props: BetDetailsProps) => {
 
 				{/* Right side - Details */}
 				<div className='w-full md:w-1/2 '>
-					<div className='flex items-center gap-2  mb-3 text-yellow-700'>
+					<div
+						className={`flex items-center gap-2  mb-3 ${
+							isVotedEnded ? "text-red-500" : "text-yellow-700"
+						} `}>
 						<svg
 							className='w-5 h-5'
 							fill='none'
@@ -100,7 +142,7 @@ const BetDetails = (props: BetDetailsProps) => {
 								d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'
 							/>
 						</svg>
-						<span>Ends in: {timeLeft}</span>
+						<span>{timeLeft}</span>
 					</div>
 
 					<h1 className='text-3xl text-gray-300 md:text-4xl font-bold mb-4 font-montserrat letter-title leading-[2.5rem] md:leading-[2.8rem]'>
@@ -136,6 +178,7 @@ const BetDetails = (props: BetDetailsProps) => {
 							Share
 						</button>
 					</div>
+					<h1 className='3xl'></h1>
 					<div className='bg-[#1c1c1c] rounded-2xl p-6 mb-8'>
 						<div className='flex justify-between items-center mb-4'>
 							<div>
@@ -159,9 +202,13 @@ const BetDetails = (props: BetDetailsProps) => {
 							</div>
 						</div>
 						<BetPoll
+							userPreviousVote={props.votes[props.userID] || ""}
 							teams={props.votes}
 							options={props.options}
 							onVote={handleVote}
+							disabled={
+								isVotedEnded || Boolean(props.votes[props.userID])
+							}
 						/>
 					</div>
 					{/* <div className='bg-[#1c1c1c] rounded-2xl p-6'>
