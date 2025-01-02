@@ -14,48 +14,48 @@ const Hero = () => {
 					className='bg-[#E2D3FF] text-black px-8 py-3 rounded-full  font-medium hover:bg-[#d1bbff] transition-colors text-sm relative block'>
 					Show Me How
 					<img
-						src='https://superboard.xyz/_next/static/media/ehanger.ec901674.svg'
+						src='/images/ehanger.ec901674.svg'
 						alt='ehanger'
 						className='absolute top-[81%]  left-1/2 w-[3rem] tilt-animation'
 					/>
 				</a>
 				<img
-					src='https://superboard.xyz/_next/static/media/waves.5f429969.svg'
+					src='/images/waves.5f429969.svg'
 					alt=''
 					className='absolute bottom-0 left-0 h-[9rem] md:h-auto md:w-full floating-animation-slow floating-delay-2'
 				/>
 				<img
-					src='https://superboard.xyz/_next/static/media/cloudcat.0c2f9bc5.svg'
+					src='/images/cloudcat.0c2f9bc5.svg'
 					alt=''
 					className='absolute top-4 left-5 w-[5rem] md:w-[9rem] floating-animation-medium floating-delay-1'
 				/>
 				<img
-					src='https://superboard.xyz/_next/static/media/surfer.3d260d36.svg'
+					src='/images/surfer.3d260d36.svg'
 					alt=''
 					className='absolute left-[25%] bottom-[7%] w-[7rem] md:w-[13rem] floating-animation-fast floating-delay-3'
 				/>
 				<img
-					src='https://superboard.xyz/_next/static/media/man.d86c7b8d.svg'
+					src='/images/man.d86c7b8d.svg'
 					alt=''
 					className='absolute left-[50%] top-[5%] w-[3rem] md:w-[8rem] floating-animation-medium floating-delay-4'
 				/>
 				<img
-					src='https://superboard.xyz/_next/static/media/sushicloud.f7103fa0.svg'
+					src='/images/sushicloud.f7103fa0.svg'
 					alt='sushi cloud'
 					className='absolute -right-3 md:right-[4rem] bottom-[30%] md:bottom-[7rem] w-[4rem] md:w-[7rem] floating-animation-medium floating-delay-4'
 				/>
 				<img
-					src='https://superboard.xyz/_next/static/media/cloudcat2.3ff8e0af.svg'
+					src='/images/cloudcat2.3ff8e0af.svg'
 					alt='cat hands up'
 					className='absolute left-[0rem] md:left-[4rem] top-[40%] -translate-y-1/2 w-[6rem] md:w-[9rem] floating-animation-slow floating-delay-1'
 				/>
 				<img
-					src='https://superboard.xyz/_next/static/media/abstergocoin.e859169f.svg'
+					src='/images/abstergocoin.e859169f.svg'
 					alt='abstergocoin'
 					className='absolute right-[4rem] top-[4rem] w-[4rem] md:w-[6rem] floating-animation-fast floating-delay-2'
 				/>
 				<img
-					src='https://superboard.xyz/_next/static/media/landing_rainbow.f61781fa.svg'
+					src='/images/landing_rainbow.f61781fa.svg'
 					alt='laning_raingbow'
 					className='absolute right-0 top-0
 					 md:-top-[10%] w-[130%] md:w-[80%] -z-10'
