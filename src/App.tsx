@@ -20,7 +20,7 @@ function App() {
 	return (
 		<Fragment>
 			<img
-				src='https://superboard.xyz/_next/static/media/tasks-bg.ff21925f.svg'
+				src='/images/tasks-bg.ff21925f.svg'
 				className='fixed h-screen w-screen object-cover'
 				alt='Vite logo'
 			/>
