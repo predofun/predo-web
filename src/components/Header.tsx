@@ -31,6 +31,12 @@ const Header = () => {
 				<nav className='hidden md:flex gap-8'>
 					<a
 						target='_blank'
+						href='https://t.me/PredoPortal'
+						className='text-white hover:text-gray-300'>
+						Telegram
+					</a>
+					<a
+						target='_blank'
 						href='https://github.com/predofun'
 						className='text-white hover:text-gray-300'>
 						Github
