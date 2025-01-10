@@ -57,9 +57,7 @@ const BetDetails = (props: BetDetailsProps) => {
 			username: telegramUser?.user?.username,
 			votedOption: props.options[teamIndex],
 		});
-		setTimeout(() => {
-			showToast.loading("Processing your vote...");
-		}, 5000);
+
 		const response = await fetch(
 			`${import.meta.env.VITE_API_URL}/bet/predict`,
 			{
@@ -106,6 +104,12 @@ const BetDetails = (props: BetDetailsProps) => {
 		}
 
 		const { data } = await response.json();
+
+		setTimeout(() => {
+			if (!data) {
+				showToast.loading("Processing your vote...");
+			}
+		}, 3000);
 
 		showToast.success("Vote submitted successfully!");
 		setBetDetails(data.bet);
